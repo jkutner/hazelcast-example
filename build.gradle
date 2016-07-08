@@ -38,6 +38,8 @@ bootRepackage {
     mainClass = 'org.springframework.boot.loader.PropertiesLauncher'
 }
 
+check.dependsOn.remove(test)
+
 task stage {
     dependsOn build
 }
