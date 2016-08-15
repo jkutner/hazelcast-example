@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hazelcast
-        xsi:schemaLocation="http://www.hazelcast.com/schema/config http://www.hazelcast.com/schema/config/hazelcast-config-3.5.xsd"
+        xsi:schemaLocation="http://www.hazelcast.com/schema/config http://www.hazelcast.com/schema/config/hazelcast-config-3.6.xsd"
         xmlns="http://www.hazelcast.com/schema/config"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <properties>
+        <!-- at the moment the discovery needs to be activated explicitly -->
+        <property name="hazelcast.rest.enabled">true</property>
+        <property name="hazelcast.discovery.enabled">true</property>
+    </properties>
 
     <network>
         <join>
+            <!-- deactivate normal discovery -->
             <multicast enabled="false"/>
-            <tcp-ip enabled="true">
-                <member-list>
-                    <member>localhost</member>
-                </member-list>
-            </tcp-ip>
+            <tcp-ip enabled="false" />
+
+            <!-- activate the Heroku DNS Discovery -->
+            <discovery-strategies>
+                <discovery-strategy enabled="true"
+                                    class="com.example.HazelcastHerokuDiscoveryStrategy">
+
+                    <properties>
+                        <property name="service-dns">MY-SERVICE-DNS-NAME</property>
+                    </properties>
+                </discovery-strategy>
+            </discovery-strategies>
         </join>
     </network>
 </hazelcast>

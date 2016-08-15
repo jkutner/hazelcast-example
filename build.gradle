@@ -26,6 +26,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('com.hazelcast:hazelcast-all:3.6.1')
     compile('javax.cache:cache-api:1.0.0')
+    compile('dnsjava:dnsjava:2.1.7')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
