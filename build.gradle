@@ -1,18 +1,13 @@
 buildscript {
-    ext {
-        springBootVersion = '1.3.3.RELEASE'
-    }
     repositories {
         mavenLocal()
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin:'application'
+mainClassName = 'com.example.HazelcastCluster'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -23,24 +18,20 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-cache')
-    compile('com.hazelcast:hazelcast-all:3.6.1')
-    compile('javax.cache:cache-api:1.0.0')
-    compile('dnsjava:dnsjava:2.1.7')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('io.vertx:vertx-core:3.3.2')
+    compile('io.vertx:vertx-hazelcast:3.3.2')
+    compile('com.hazelcast:hazelcast-all:3.7')
+    compile('com.github.jkutner:hazelcast-heroku-discovery:3.7.0')
 }
 
-springBoot {
-    mainClass = 'com.example.CachingBootifulWebinarApplication'
-    layout = 'ZIP'
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
 }
-
-bootRepackage {
-    mainClass = 'org.springframework.boot.loader.PropertiesLauncher'
-}
-
-check.dependsOn.remove(test)
 
 task stage {
     dependsOn build
 }
+
+stage.dependsOn(copyToLib)
+check.dependsOn.remove(test)

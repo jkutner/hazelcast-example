@@ -1,3 +1,2 @@
-demo: java -Dloader.main=com.example.HazelcastCluster -jar build/libs/hazelcast-heroku.jar && java -Dloader.main=com.example.CachingBootifulWebinarApplication -jar build/libs/hazelcast-heroku.jar
-cachingBootifulWebinarApplication: java -Dloader.main=com.example.CachingBootifulWebinarApplication -jar build/libs/hazelcast-heroku.jar
-hazelcast: java -Dloader.main=com.example.HazelcastCluster -jar build/libs/hazelcast-heroku.jar
+cluster: java -cp build/classes:builds/resources:build/libs/* com.example.HazelcastCluster
+web: java -Dvertx.hazelcast.config=build/resources/main/hazelcast.xml -Dhttp.port=$PORT -cp build/classes:build/libs/* com.example.HelloWorldVertx
